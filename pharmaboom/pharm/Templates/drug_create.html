@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Add drug{% endblock title %}
+{% block content %}
+
+<h1>Создать новое наименование</h1>
+<form action="{% url 'drug_create' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Добавить" class="btn btn-success">
+</form>
+<a href="{% url 'ph_list' %}"  class="btn btn-primary">Перейти на список товаров</a>
+<br>
+<br>
+<a href="{% url 'manager_edit' %}"  class="btn btn-dark">Перейти в панель менеджера</a>
+{% endblock %}

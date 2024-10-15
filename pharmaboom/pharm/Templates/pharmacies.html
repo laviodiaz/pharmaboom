@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Аптеки
+{% endblock title %}
+
+
+{% block content %}
+
+<table class="table table-bordered border-primary">
+    <tr>
+        <th>Название аптеки</th>
+        <th>Статус</th>
+
+    </tr>
+    {% for pharmacy in pharmacies %}
+    <tr>
+        <th><a href="{% url 'ph_info' pharmacy.id %}">{{pharmacy.name}}</a></th>
+        <th>{{pharmacy.status}}</th>
+
+    </tr>
+    {% endfor %}
+</table>
+<a href="{% url 'pharm_create' %}" class="btn btn-primary">Добавить аптеку</a>
+
+{% endblock %}

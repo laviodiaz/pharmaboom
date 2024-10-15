@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<p>Вы действительно хотите удалить товар <b>{{drug.name}}?</b>></p>
+<form action="{% url 'drug_delete' drug.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Да" class="btn btn-primary">
+</form>
+<br>
+<a href="{% url 'drugs_list' %}" class="btn btn-success">Нет</a>
+{% endblock %}

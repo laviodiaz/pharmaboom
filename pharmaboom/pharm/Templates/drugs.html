@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Аптеки
+{% endblock title %}
+
+
+{% block content %}
+
+<table class="table table-bordered border-primary">
+    <tr>
+        <th>Наименование</th>
+        <th>Производитель</th>
+        <th>Статус</th>
+        <th>Цена</th>
+        <th>Количество</th>
+
+    </tr>
+    {% for drug in drugs %}
+    <tr>
+        <th><a href="{% url 'drug_detail' drug.id %}">{{drug.name}}</a></th>
+        <th>{{drug.corp}}</th>
+        <th>{{drug.status}}</th>
+        <th>{{drug.price}}</th>
+        <th>{{drug.amount}}</th>
+    </tr>
+
+    {% endfor %}
+</table>
+
+<a href="{% url 'drug_create' %}" class="btn btn-primary">Добавить новое наименование товара</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{pharmacy.name}}
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <p style="color: red">Информация об аптеке:</p>
+
+    <p>Название аптеки: {{pharmacy.name}}</p>
+    <p>Аптечная сеть: {{pharmacy.pharm_chain}}</p>
+    <p>Город: {{pharmacy.city}}</p>
+    <p>Адрес: {{pharmacy.address}}</p>
+    <p>Статус аптеки: {{pharmacy.status}}</p>
+
+    <a href="{% url 'pharm_update' pharmacy.id %}" class="btn btn-primary">>Редактировать аптеку</a>
+    <a href="{% url 'conf_del_pharm' pharmacy.id %}" class="btn btn-success">Удалить аптеку</a>
+</div>
+<br>
+<a href="{% url 'manager_edit' %}"  class="btn btn-dark">Перейти в панель менеджера</a>
+
+{% endblock %}

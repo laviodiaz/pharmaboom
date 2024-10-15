@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{drug.name}}
+{% endblock title %}
+
+
+{% block content %}
+<div class="container-fluid">
+    <p style="color: red">Информация о товаре:</p>
+    <p>Наименование товара: {{drug.name}}</p>
+    <p>Производитель: {{drug.corp}}</p>
+    <p>Бренд: {{drug.brand}}</p>
+    <p>Статус: {{drug.status}}</p>
+    <p>Форма выпуска: {{drug.drug_form}}</p>
+    <p>Форма отпуска: {{drug.drug_type}}</p>
+    <p>Цена, сом: {{drug.price}}</p>
+    <p>Количество: {{drug.amount}}</p>
+</div>
+
+    {% if drug.photo %}
+        <img src="{{ drug.photo.url }}" width="50%" height="50%">
+    {% endif %}
+<br>
+    <a href="{% url 'drug_update' drug.id %}" class="btn btn-primary">Редактировать товар</a>
+    <a href="{% url 'conf_del_drug' drug.id %}" class="btn btn-success">Удалить товар</a>
+
+<a href="{% url 'manager_edit' %}"  class="btn btn-dark">Перейти в панель менеджера</a>
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% block title %}Редактировать товар{% endblock title %}
+
+<h1>Редактировать товар</h1>
+<h3 style="color: red">Обновите данные товара (если необходимо) и нажмите "Обновить"</h3>
+
+<form action="{% url 'drug_update' form.instance.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Обновить" class="btn btn-danger">
+</form>
+<a href="{% url 'ph_list' %}"  class="btn btn-primary">Перейти на список товаров</a>
+<br>
+<br>
+<a href="{% url 'manager_edit' %}"  class="btn btn-dark">Перейти в панель менеджера</a>
+{% endblock %}
