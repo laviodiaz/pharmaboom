@@ -42,6 +42,18 @@ class DrugForm(forms.ModelForm):
             'amount': forms.NumberInput(),
         }
 
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = models.Order
+        fields = ['drug',  'pharmacy', 'quantity', 'order_status', 'date_delivery']
+        widgets = {
+            'drug': forms.Select(),
+            'pharmacy': forms.Select(),
+            'quantity': forms.NumberInput(),
+            'order_status': forms.Select(),
+            'date_delivery':forms.DateInput()
+        }
+
 
 class CreateUserForm(UserCreationForm):
     email = forms.CharField(

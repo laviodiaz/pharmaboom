@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Заказы
+{% endblock title %}
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+Привет, {{user.username}}
+    <a href="{% url 'sign_out' %}" class="btn btn-danger">Выйти</a>
+ {% endif %}
+<br><br><br>
+<table class="table table-bordered border-primary">
+    <tr>
+        <th>Дата заказа</th>
+        <th>Дата доставки/вывоза</th>
+        <th>Наименование</th>
+        <th>Аптека</th>
+        <th>
+            Статус заказа
+        </th>
+        <th>Количество</th>
+        <th>Цена</th>
+        <th>Сумма к оплате</th>
+        <th></th>
+
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <th>{{order.date_create}}</th>
+        <th>{{order.date_delivery}}</th>
+        <th>{{order.drug}}</th>
+        <th>{{order.pharmacy}}</th>
+        <th>
+        {% if is_client == False %}
+        {{order.order_status}}
+        {% endif %}
+        </th>
+        <th>{{order.quantity}}</th>
+        <th>{{order.price}}</th>
+        <th>{{order.amount}}</th>
+        <th>
+            {% if is_client == False %}
+                <a href="{% url 'order_update' order.id %}" class="btn btn-info">Редактировать заказ</a>
+            {% endif %}
+            {% if is_client %}
+                <a href="{% url 'conf_del_order' order.id %}" class="btn btn-danger">Удалить заказ</a>
+            {% endif %}
+        </th>
+    </tr>
+
+    {% endfor %}
+</table>
+<br>
+<a href="{% url 'order_create' %}" class="btn btn-info">Создать еще один заказ</a>
+<br>
+{% endblock %}

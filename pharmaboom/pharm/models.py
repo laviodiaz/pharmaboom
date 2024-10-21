@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -120,11 +122,12 @@ class Drug(models.Model):
         verbose_name_plural = "Лекарственные средства"
         ordering = ['name']
 
+
 class ProductEntry(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     drug = models.ForeignKey(Drug, on_delete=models.DO_NOTHING)
     amount = models.IntegerField()
-    entry_date = models.DateField()
+    entry_date = models.DateField(default=datetime.date.today())
 
     class Meta:
         verbose_name_plural = "Приходы"
@@ -132,6 +135,7 @@ class ProductEntry(models.Model):
 
     def __str__(self):
         return f'{self.drug} {self.entry_date}'
+
 
 class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -173,6 +177,25 @@ class Pharmacy(models.Model):
     class Meta:
         verbose_name_plural = "Аптеки"
         ordering = ['name']
+
+
+class Order(models.Model):
+    drug = models.ForeignKey(Drug, on_delete=models.DO_NOTHING)
+    date_create = models.DateField(default=datetime.date.today())
+    date_delivery = models.DateField(default=datetime.date.today())
+    pharmacy = models.ForeignKey(Pharmacy, on_delete=models.DO_NOTHING)
+    order_status = models.ForeignKey(OrderStatus, on_delete=models.DO_NOTHING, default=1)
+    price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Цена товара, сом')
+    quantity = models.IntegerField(verbose_name='Количество')
+    amount = models.IntegerField(verbose_name='Cумма')
+    customer = models.TextField(verbose_name='Покупатель', default='')
+
+    def __str__(self):
+        return f'{self.date_create}, город {self.drug}, {self.pharmacy}'
+
+    class Meta:
+        verbose_name_plural = "Заказы"
+        ordering = ['date_create']
 
     # class Manager(models.Model):
     #     name = models.CharField(max_length=50, verbose_name='Имя менеджера')

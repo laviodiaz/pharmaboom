@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% block title %}Редактировать заказ
+{% endblock title %}
+{% if user.is_authenticated %}
+Привет, {{user.username}}
+    <a href="{% url 'sign_out' %}" class="btn btn-danger">Выйти</a>
+ {% endif %}
+<br><br><br>
+<h1>Редактировать заказ</h1>
+<h3 style="color: red">Обновите данные заказа (если необходимо) и нажмите "Обновить"</h3>
+
+<form action="{% url 'order_update' form.instance.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Обновить" class="btn btn-danger">
+</form>
+<br>
+<a href="{% url 'orders_list' %}"  class="btn btn-primary">Перейти на список заказов</a>
+
+{% endblock %}

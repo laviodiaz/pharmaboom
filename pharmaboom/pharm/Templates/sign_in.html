@@ -2,6 +2,7 @@
 
 
 {% block content %}
+<br>
 <form action="{% url 'sign_in' %}" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.as_p }}

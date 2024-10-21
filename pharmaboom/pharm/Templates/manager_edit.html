@@ -6,11 +6,19 @@
 
 
 {% block content %}
+{% if user.is_authenticated %}
+Привет, {{user.username}}
+    <a href="{% url 'sign_out' %}" class="btn btn-danger" >Выйти</a>
+ {% endif %}
+<br><br>
 <p>Добро пожаловать в панель менеджера!</p>
 <a href="{% url 'ph_list' %}" class="btn btn-primary">Посмотреть или изменить список аптек</a>
 <br>
 <br>
 <a href="{% url 'drugs_list' %}" class="btn btn-info">Посмотреть или изменить список препаратов</a>
+<br>
+<br>
+<a href="{% url 'orders_list' %}" class="btn btn-info">Посмотреть список заказов</a>
 <br>
 <br>
 <a href="{% url 'product_entry' %}" class="btn btn-danger">Внести партию товара</a>

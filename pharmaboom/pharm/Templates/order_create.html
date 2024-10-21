@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Add drug{% endblock title %}
+{% block content %}
+{% if user.is_authenticated %}
+Привет, {{user.username}}
+    <a href="{% url 'sign_out' %}" class="btn btn-danger">Выйти</a>
+ {% endif %}
+<br><br><br>
+<h1>Создать новый заказ</h1>
+<form action="{% url 'order_create' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Подтвердить" class="btn btn-success">
+</form>
+<br>
+<a href="{% url 'products_list' %}"  class="btn btn-info">Отменить</a>
+
+{% endblock %}
