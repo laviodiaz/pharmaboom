@@ -6,6 +6,7 @@ from django import template
 
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+import datetime
 
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -96,7 +97,10 @@ def confirm_delete_pharm(request, pk):
 
 def confirm_delete_order(request, pk):
     order = get_object_or_404(models.Order, pk=pk)
-    return render(request, 'confirm_delete_order.html', {'order': order})
+    if (order.date_delivery - datetime.date.today()).days >= 1:
+        return render(request, 'confirm_delete_order.html', {'order': order})
+    else:
+        return render(request, 'fail_delete_order.html', {'order': order})
 
 
 class PharmDeleteView(DeleteView):
@@ -173,6 +177,27 @@ class OrderUpdateView(UpdateView):
     form_class = forms.OrderForm
     template_name = 'order_update.html'
     success_url = reverse_lazy('orders_list')
+
+def order_update(request, pk):
+        order = get_object_or_404(models.Order, pk=pk)
+        if request.method == 'POST':
+            form = forms.OrderForm(request.POST, request.FILES, instance=order)
+            if form.is_valid():
+                order = form.save(commit=False)
+                product_from_db = get_object_or_404(models.Product, drug=order.drug)
+                order.save()
+                print(order.order_status)
+                if order.order_status == "Выполнен":
+                    product_from_db.amount -= order.quantity
+                    product_from_db.save()
+                else:
+                    print("dfdfdfdf")
+                return redirect('orders_list')
+
+        else:
+            form = forms.OrderForm(instance=order)
+        return render(request, 'order_update.html', {'form': form})
+
 
 class DrugUpdateView(UpdateView):
     model = models.Drug

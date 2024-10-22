@@ -51,7 +51,7 @@ class OrderForm(forms.ModelForm):
             'pharmacy': forms.Select(),
             'quantity': forms.NumberInput(),
             'order_status': forms.Select(),
-            'date_delivery':forms.DateInput()
+            'date_delivery':forms.DateInput(attrs={'type': 'date', })
         }
 
 

@@ -6,7 +6,11 @@
 
 
 {% block content %}
-
+{% if user.is_authenticated %}
+Привет, {{user.username}}
+    <a href="{% url 'sign_out' %}" class="btn btn-danger">Выйти</a>
+ {% endif %}
+<br><br><br>
 <table class="table table-bordered border-primary">
     <tr>
         <th>Полное наименование товара</th>

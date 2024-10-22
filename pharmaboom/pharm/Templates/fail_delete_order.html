@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<br><br><br><br>
+<p style="color: blue"><b>Вы не можете удалить заказ, потому что до даты заказа осталось менее суток!</b></p>
+
+<br>
+<a href="{% url 'orders_list' %}" class="btn btn-success">Вернуться на список заказов</a>
+{% endblock %}

@@ -54,6 +54,10 @@
     {% endfor %}
 </table>
 <br>
+{% if is_client %}
 <a href="{% url 'order_create' %}" class="btn btn-info">Создать еще один заказ</a>
+{% endif %}
 <br>
+<br>
+<a href="{% url 'products_list' %}" class="btn btn-info">Просмотреть список товаров, доступных к заказу</a>
 {% endblock %}
