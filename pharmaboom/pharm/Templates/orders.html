@@ -45,8 +45,11 @@
             {% if is_client == False %}
                 <a href="{% url 'order_update' order.id %}" class="btn btn-info">Редактировать заказ</a>
             {% endif %}
+
             {% if is_client %}
+                {% if is_ready_or_no(order.order_status) == False %}
                 <a href="{% url 'conf_del_order' order.id %}" class="btn btn-danger">Удалить заказ</a>
+                {% endif %}
             {% endif %}
         </th>
     </tr>

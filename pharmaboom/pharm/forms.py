@@ -54,6 +54,16 @@ class OrderForm(forms.ModelForm):
             'date_delivery':forms.DateInput(attrs={'type': 'date', })
         }
 
+class CreatingOrderForm(forms.ModelForm):
+    class Meta:
+        model = models.Order
+        fields = ['drug',  'pharmacy', 'quantity','date_delivery']
+        widgets = {
+            'drug': forms.Select(),
+            'pharmacy': forms.Select(),
+            'quantity': forms.NumberInput(),
+            'date_delivery':forms.DateInput(attrs={'type': 'date', })
+        }
 
 class CreateUserForm(UserCreationForm):
     email = forms.CharField(

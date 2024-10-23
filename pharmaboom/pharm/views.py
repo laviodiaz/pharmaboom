@@ -136,7 +136,7 @@ class DrugCreateView(CreateView):
 
 def create_order(request):
     if request.method == 'POST':
-        form = forms.OrderForm(request.POST)
+        form = forms.CreatingOrderForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
             product = get_object_or_404(models.Product, drug=order.drug)
@@ -149,13 +149,17 @@ def create_order(request):
             else:
                 return redirect('orders_list')
     else:
-        form = forms.OrderForm()
+        form = forms.CreatingOrderForm()
     return render(request, 'order_create.html', {'form': form})
 
 # class OrderListView(ListView):
 #     model = models.Order
 #     template_name = 'orders.html'
 #     context_object_name = 'orders'
+
+def is_ready_or_no(x):
+    return str(x) == "Выполнен"
+
 
 def orders(request):
     user = request.user
@@ -165,7 +169,7 @@ def orders(request):
     else:
         queryset = models.Order.objects.all
         is_client = False
-    return render(request, 'orders.html', {'orders': queryset, 'is_client':is_client})
+    return render(request, 'orders.html', {'orders': queryset, 'is_client':is_client, 'is_ready_or_no': is_ready_or_no})
 
 class OrderDeleteView(DeleteView):
     model = models.Order
@@ -178,6 +182,7 @@ class OrderUpdateView(UpdateView):
     template_name = 'order_update.html'
     success_url = reverse_lazy('orders_list')
 
+
 def order_update(request, pk):
         order = get_object_or_404(models.Order, pk=pk)
         if request.method == 'POST':
@@ -186,12 +191,9 @@ def order_update(request, pk):
                 order = form.save(commit=False)
                 product_from_db = get_object_or_404(models.Product, drug=order.drug)
                 order.save()
-                print(order.order_status)
-                if order.order_status == "Выполнен":
+                if smb_to_str(order.order_status) == "Выполнен":
                     product_from_db.amount -= order.quantity
                     product_from_db.save()
-                else:
-                    print("dfdfdfdf")
                 return redirect('orders_list')
 
         else:
